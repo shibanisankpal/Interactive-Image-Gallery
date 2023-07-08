@@ -1,3 +1,4 @@
+
 import streamlit as st
 from PIL import Image
 
@@ -7,6 +8,15 @@ def main():
 
     if uploaded_files:
         images = [Image.open(file) for file in uploaded_files]
+
+        operation = st.selectbox("Select an Operation", ["None", "Rotate", "Resize"])
+        if operation == "Rotate":
+            angle = st.slider("Rotation Angle", -180, 180, 0)
+            images = [image.rotate(angle) for image in images]
+        elif operation == "Resize":
+            width = st.slider("New Width", 100, 1000, 300)
+            height = st.slider("New Height", 100, 1000, 300)
+            images = [image.resize((width, height)) for image in images]
 
         # Display images in a grid layout
         col_num = 3  # Number of columns in the grid
